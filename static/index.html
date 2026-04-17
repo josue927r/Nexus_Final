@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus | Motor de Cuadratura</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css?v=25">
+
+</head>
+
+<body>
+    <div class="app-layout">
+        <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+        
+        <aside class="sidebar" id="app-sidebar">
+            <div class="sidebar-header">
+                <!-- Bot icon / Logo similar to the image -->
+                <svg class="sidebar-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <defs>
+                        <linearGradient id="sidebarPillGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path fill="url(#sidebarPillGradient)"
+                        d="M19.5 4.5l-2.25-2.25a4.5 4.5 0 00-6.364 0L4.5 8.636a4.5 4.5 0 000 6.364l2.25 2.25a4.5 4.5 0 006.364 0l6.386-6.386a4.5 4.5 0 000-6.364z" />
+                </svg>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link tab-btn active" data-tab="tab-ibot" onclick="switchTab('tab-ibot')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="sidebar-icon">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                    </svg>
+                    Conciliación iBot
+                </a>
+                <a href="#" class="sidebar-link tab-btn" data-tab="tab-branches" onclick="switchTab('tab-branches')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="sidebar-icon">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+                    </svg>
+                    Cuadratura Sucursales
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="topbar" style="display: flex; justify-content: space-between; align-items: center;">
+                <button class="menu-toggle-btn" onclick="toggleSidebar()" title="Abrir/Cerrar Menú">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:24px;height:24px;">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <a href="/admin" id="admin-panel-btn" class="btn-primary" style="display: none; padding: 6px 15px; font-size: 0.9rem; text-decoration: none; margin: 0; display: none; align-items: center; gap: 5px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:16px;height:16px;">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.107-1.204l-.527-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Admin
+                    </a>
+                    <button onclick="window.location.href='/logout'" class="btn-logout" title="Cerrar Sessión">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" style="width:20px;height:20px;">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12" />
+                        </svg>
+                        Salir
+                    </button>
+                </div>
+            </div>
+            
+            <div class="container">
+                <header>
+                    <h1>
+                        Nexus Cuadratura
+                        <svg class="header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <defs>
+                                <linearGradient id="pillGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#8B5CF6;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path fill="url(#pillGradient)"
+                                d="M19.5 4.5l-2.25-2.25a4.5 4.5 0 00-6.364 0L4.5 8.636a4.5 4.5 0 000 6.364l2.25 2.25a4.5 4.5 0 006.364 0l6.386-6.386a4.5 4.5 0 000-6.364z" />
+                        </svg>
+                    </h1>
+                    <p>Sube tus archivos de venta y detecta diferencias al instante.</p>
+                </header>
+
+        <div id="tab-ibot" class="tab-content active">
+            <!-- SPLIT DASHBOARD LAYOUT -->
+            <div class="dashboard-split">
+                <!-- VOUCHER SUMMARY (LEFT) -->
+                <div class="upload-card voucher-card">
+                    <h3>📝 Paso 1: Digita tu Voucher</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 15px;">Completa la tabla con los valores del
+                        papel.</p>
+
+                    <!-- SHIFT TIME FILTER REMOVED BY USER REQUEST -->
+
+                    <div class="table-scroll">
+                        <table id="voucher-table" style="margin-bottom: 0;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%;">Artículo</th>
+                                    <th>Total (Sistema)</th>
+                                    <th>Real (Físico)</th>
+                                    <th>Diferencia</th>
+                                    <th style="width: 50px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Fixed Rows -->
+                                <tr data-row="efectivo" class="fixed-row">
+                                    <td><strong>Efectivo</strong></td>
+                                    <td><input type="text" class="form-input currency-input v-sistema" placeholder="$0">
+                                    </td>
+                                    <td><input type="text" class="form-input currency-input v-real" placeholder="$0">
+                                    </td>
+                                    <td class="v-diff" style="font-weight: bold;">$ 0</td>
+                                    <td></td>
+                                </tr>
+                                <tr data-row="transbank" class="fixed-row">
+                                    <td><strong>Transbank</strong></td>
+                                    <td><input type="text" class="form-input currency-input v-sistema" placeholder="$0">
+                                    </td>
+                                    <td><input type="text" class="form-input currency-input v-real" placeholder="$0">
+                                    </td>
+                                    <td class="v-diff" style="font-weight: bold;">$ 0</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" style="padding: 10px; text-align: center;">
+                                        <button id="add-concept-btn" class="btn-add-row" style="width: 100%;">
+                                            <div class="icon-plus">+</div>
+                                            <span>Agregar</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="table-totals-row">
+                                    <td>TOTALES</td>
+                                    <td id="grand-total-sistema">$ 0</td>
+                                    <td id="grand-total-real">$ 0</td>
+                                    <td id="grand-total-diff">$ 0</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- UPLOAD SECTION (RIGHT) -->
+                <div class="upload-card upload-section-card">
+                    <div class="upload-zone"
+                        style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                        <h3>📁 Carga de Archivos</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 20px;">Sube los reportes para cruzar
+                            información.</p>
+
+                        <div class="file-status-vertical">
+                            <div class="file-group-large">
+                                <label for="file-ibot">1. Archivo Sistema (iBot)</label>
+                                <div class="file-input-wrapper" onclick="document.getElementById('file-ibot').click()">
+                                    <input type="file" id="file-ibot" accept=".csv, .xlsx, .xls" style="display:none">
+                                    <div class="upload-icon">📄</div>
+                                    <span id="file-ibot-label">Seleccionar Archivo...</span>
+                                </div>
+                            </div>
+
+                            <!-- TRANSBANK UPLOAD REMOVED BY USER REQUEST (Single File Mode) -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTION BUTTON (CENTER BELOW) -->
+            <div class="action-bar">
+                <button id="process-btn" class="btn-primary btn-large">
+                    Analizar Cuadratura 🚀
+                </button>
+            </div>
+
+
+
+            <!-- RESULTS SECTION -->
+            <div id="results-section">
+
+                <div class="summary-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Declarado (Sistema)</div>
+                        <div class="stat-value" id="total-sistema">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Real (Banco)</div>
+                        <div class="stat-value" id="total-banco">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Diferencia Neta</div>
+                        <div class="stat-value" id="diferencia-neta">$0</div>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+    </div> <!-- End of tab-ibot -->
+
+    <!-- TAB BRANCHES -->
+    <div id="tab-branches" class="tab-content">
+        <div class="upload-card" style="border-top: 5px solid var(--primary);">
+            <h3>🏢 Cuadratura de Sucursales</h3>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Ingresa los montos manuales de cada sucursal.</p>
+
+            <div class="branch-header" style="display: grid; grid-template-columns: 1.5fr 2.5fr 2.5fr 2.5fr 1fr 40px; gap: 10px; align-items: center; font-weight: 600; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; padding: 0 10px;">
+                <div>Sucursal</div>
+                <div>Débito</div>
+                <div>Crédito</div>
+                <div>Venta (Sistema)</div>
+                <div style="text-align: center;">Diferencia</div>
+                <div></div>
+            </div>
+
+            <div id="branches-container" class="branch-list">
+                <!-- Dynamic Items -->
+            </div>
+
+            <div style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <button id="add-branch-btn" class="btn-add-row" style="margin: 0; width: auto; padding: 10px 20px;">
+                    <div class="icon-plus">+</div>
+                    <span>Agregar Sucursal</span>
+                </button>
+                <button id="btn-calc-branches" class="btn-primary" style="margin: 0; width: auto; padding: 12px 30px;">Calcular Cuadratura 🚀</button>
+            </div>
+
+            <!-- Separador y Contenedor para CRETA -->
+            <div style="margin-top: 30px; border-top: 1px dashed var(--border-color); padding-top: 10px;">
+                <span style="font-size: 0.8rem; font-weight: bold; color: var(--text-muted); text-transform: uppercase;">Sucursal Adicional</span>
+            </div>
+            
+            <div id="creta-container" class="branch-list" style="margin-top: 20px;">
+                <!-- CRETA agregada aquí por JS -->
+            </div>
+
+            <div style="margin-top: 20px; display: flex; justify-content: flex-end; align-items: center;">
+                <button id="btn-calc-creta" class="btn-primary" style="margin: 0; width: auto; padding: 12px 30px;">Calcular Creta 🚀</button>
+            </div>
+
+            <!-- Resultados Sucursales -> Integrados en la misma tarjeta -->
+            <div id="branches-summary" class="summary-grid" style="display:none; margin-top: 30px; border-top: 1px dashed var(--border-color); padding-top: 30px;">
+                <!-- Card Débito -->
+                <div class="stat-card card-debit">
+                    <div class="card-icon-wrapper icon-blue">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="stat-label">Total Débito</div>
+                        <div class="stat-value" id="global-debit">$0</div>
+                    </div>
+                </div>
+
+                <!-- Card Crédito -->
+                <div class="stat-card card-credit">
+                    <div class="card-icon-wrapper icon-purple">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="stat-label">Total Crédito</div>
+                        <div class="stat-value" id="global-credit">$0</div>
+                    </div>
+                </div>
+
+                <!-- Card Ventas -->
+                <div class="stat-card card-sales">
+                    <div class="card-icon-wrapper icon-indigo">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="stat-label">Total Ventas</div>
+                        <div class="stat-value" id="global-sales">$0</div>
+                    </div>
+                </div>
+
+                <!-- Card Diferencia -->
+                <div class="stat-card card-diff">
+                    <div class="card-icon-wrapper icon-gray">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="stat-label">Diferencia Total</div>
+                        <div class="stat-value" id="global-diff">$0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resultados Sucursal Especial CRETA -->
+            <div id="creta-summary-container" style="display:none; margin-top: 30px; border-top: 1px dashed var(--border-color); padding-top: 20px;">
+                <h4 style="color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase;">Resumen Sucursal Adicional (CRETA)</h4>
+                <div id="creta-summary" class="summary-grid">
+                    <!-- Card Creta Débito -->
+                    <div class="stat-card card-debit">
+                        <div class="card-icon-wrapper icon-blue">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" /></svg>
+                        </div>
+                        <div>
+                            <div class="stat-label">Débito CRETA</div>
+                            <div class="stat-value" id="creta-debit">$0</div>
+                        </div>
+                    </div>
+
+                    <!-- Card Creta Crédito -->
+                    <div class="stat-card card-credit">
+                        <div class="card-icon-wrapper icon-purple">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" /></svg>
+                        </div>
+                        <div>
+                            <div class="stat-label">Crédito CRETA</div>
+                            <div class="stat-value" id="creta-credit">$0</div>
+                        </div>
+                    </div>
+
+                    <!-- Card Creta Ventas -->
+                    <div class="stat-card card-sales">
+                        <div class="card-icon-wrapper icon-indigo">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <div>
+                            <div class="stat-label">Ventas CRETA</div>
+                            <div class="stat-value" id="creta-sales">$0</div>
+                        </div>
+                    </div>
+
+                    <!-- Card Creta Diferencia -->
+                    <div class="stat-card card-diff">
+                        <div class="card-icon-wrapper icon-gray">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                        </div>
+                        <div>
+                            <div class="stat-label">Diferencia CRETA</div>
+                            <div class="stat-value" id="creta-diff">$0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- End of upload-card -->
+    </div>
+    </div> <!-- End of container -->
+</main> <!-- End of main-content -->
+</div> <!-- End of app-layout -->
+
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" class="theme-toggle-btn" title="Cambiar Tema">
+        <!-- Sun Icon (for Dark Mode) -->
+        <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" style="width:24px;height:24px;display:none;">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+        </svg>
+        <!-- Moon Icon (for Light Mode) -->
+        <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" style="width:24px;height:24px;">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+        </svg>
+    </button>
+
+    <script src="/static/script.js?v=25"></script>
+    <script>
+        fetch('/api/me')
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.is_admin) {
+                    const adminBtn = document.getElementById('admin-panel-btn');
+                    if (adminBtn) {
+                        adminBtn.style.display = 'inline-flex';
+                    }
+                }
+            })
+            .catch(err => console.error(err));
+    </script>
+</body>
+
+</html>

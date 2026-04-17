@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración | Farmacia de lo Alto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css?v=26">
+</head>
+
+<body>
+    <div class="container" style="max-width: 900px;">
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div class="robot-icon" style="width: 60px; height: 60px; margin: 0; box-shadow: none;">
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="width: 40px; height: 40px;">
+                        <defs>
+                            <linearGradient id="robotGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#4FD1C5;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#319795;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Head -->
+                        <path fill="url(#robotGrad)" d="M60,80 Q60,30 100,30 Q140,30 140,80 L140,100 L60,100 Z" />
+                        <!-- Face -->
+                        <rect x="70" y="50" width="60" height="40" rx="10" fill="white" />
+                        <!-- Eyes -->
+                        <circle cx="85" cy="65" r="5" fill="#2C5282" />
+                        <circle cx="115" cy="65" r="5" fill="#2C5282" />
+                        <!-- Body -->
+                        <path fill="url(#robotGrad)" d="M65,110 L135,110 L130,160 Q100,180 70,160 Z" />
+                        <!-- Cross -->
+                        <rect x="90" y="125" width="20" height="20" fill="white" rx="2" />
+                        <rect x="97" y="120" width="6" height="30" fill="#4FD1C5" />
+                        <rect x="85" y="132" width="30" height="6" fill="#4FD1C5" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 style="font-size: 1.8rem; margin: 0; justify-content: flex-start;">Panel de Administración</h1>
+                    <p style="color: var(--text-muted); margin: 5px 0 0 0; font-size: 0.9rem;">Gestión de accesos y personal</p>
+                </div>
+            </div>
+            <a href="/" class="btn-primary" style="text-decoration: none; padding: 10px 20px; font-size: 0.9rem; background: var(--secondary-bg); color: var(--text-main); border: 1px solid var(--border-color);">Volver a Nexus</a>
+        </header>
+
+        <div class="data-table-container">
+            <div class="table-header">
+                <h3>Usuarios Registrados</h3>
+                <a href="/register" class="btn-add-row" style="text-decoration: none; margin: 0; padding: 8px 15px;">
+                    + Nuevo Usuario
+                </a>
+            </div>
+            <div class="table-scroll">
+                <table id="users-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px; text-align: center;">ID</th>
+                            <th>Usuario</th>
+                            <th style="text-align: center;">Rol de Administrador</th>
+                            <th style="width: 80px; text-align: center;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4" style="text-align: center; padding: 20px;"><div class="spinner"></div> Cargando usuarios...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle-btn" id="theme-toggle" aria-label="Cambiar tema">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        </svg>
+    </button>
+
+    <script>
+        // Custom switch style
+        const toggleStyle = document.createElement('style');
+        toggleStyle.innerHTML = `
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            margin: 0;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .3s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--primary); }
+        input:checked + .slider:before { transform: translateX(20px); }
+        `;
+        document.head.appendChild(toggleStyle);
+
+        // Theme toggle logic
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', target);
+            localStorage.setItem('theme', target);
+        });
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+
+        async function fetchUsers() {
+            try {
+                const res = await fetch('/api/users');
+                if (!res.ok) throw new Error("No authorizado");
+                const users = await res.json();
+                renderUsers(users);
+            } catch (err) {
+                console.error(err);
+                document.querySelector('#users-table tbody').innerHTML = `<tr><td colspan="4" style="text-align: center; color: #EF4444;">Error cargando usuarios: No tienes permisos o la sesión expiró.</td></tr>`;
+            }
+        }
+
+        function renderUsers(users) {
+            const tbody = document.querySelector('#users-table tbody');
+            tbody.innerHTML = '';
+            
+            users.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="text-align: center; font-weight: bold; color: var(--text-muted);">${user.id}</td>
+                    <td>
+                        <div style="font-weight: 600;">${user.username}</div>
+                        ${user.is_admin ? '<span class="badge badge-ibot-alert" style="font-size: 0.7rem;">Administrador</span>' : ''}
+                    </td>
+                    <td style="text-align: center; vertical-align: middle;">
+                        <label class="switch">
+                            <input type="checkbox" onchange="toggleRole(${user.id}, this.checked)" ${user.is_admin ? 'checked' : ''}>
+                            <span class="slider"></span>
+                        </label>
+                    </td>
+                    <td style="text-align: center;">
+                        <button onclick="deleteUser(${user.id}, '${user.username}')" class="btn-delete" style="margin: 0 auto;" title="Eliminar usuario">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function toggleRole(id, newStatus) {
+            try {
+                const res = await fetch(`/api/users/${id}/role`, {
+                    method: 'PATCH',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ is_admin: newStatus })
+                });
+                
+                if (!res.ok) {
+                    const data = await res.json();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.detail,
+                        background: document.documentElement.getAttribute('data-theme') === 'dark' ? '#1F2937' : '#ffffff',
+                        color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#F3F4F6' : '#111827'
+                    });
+                    fetchUsers(); // revert UI changes
+                    return;
+                }
+                fetchUsers(); // Refresh to update badges
+                
+                // Optional success toast
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Permisos actualizados',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    background: document.documentElement.getAttribute('data-theme') === 'dark' ? '#1F2937' : '#ffffff',
+                    color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#F3F4F6' : '#111827'
+                });
+            } catch (e) {
+                console.error(e);
+                Swal.fire({icon: 'error', title: 'Error de conexión', background: document.documentElement.getAttribute('data-theme') === 'dark' ? '#1F2937' : '#ffffff', color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#F3F4F6' : '#111827'});
+                fetchUsers();
+            }
+        }
+
+        async function deleteUser(id, username) {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const result = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: `Se eliminará permanentemente al usuario '${username}' y perderá todo el acceso.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#EF4444',
+                cancelButtonColor: isDark ? '#4B5563' : '#9CA3AF',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+                background: isDark ? '#1F2937' : '#ffffff',
+                color: isDark ? '#F3F4F6' : '#111827'
+            });
+
+            if (!result.isConfirmed) return;
+            
+            try {
+                const res = await fetch(`/api/users/${id}`, { method: 'DELETE' });
+                if (!res.ok) {
+                    const data = await res.json();
+                    Swal.fire({icon: 'error', title: 'Error', text: data.detail, background: isDark ? '#1F2937' : '#ffffff', color: isDark ? '#F3F4F6' : '#111827'});
+                    return;
+                }
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Eliminado',
+                    text: 'El usuario ya no existe.',
+                    background: isDark ? '#1F2937' : '#ffffff',
+                    color: isDark ? '#F3F4F6' : '#111827',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                fetchUsers();
+            } catch (e) {
+                console.error(e);
+                Swal.fire({icon: 'error', title: 'Error de conexión', background: isDark ? '#1F2937' : '#ffffff', color: isDark ? '#F3F4F6' : '#111827'});
+            }
+        }
+
+        // INIT
+        fetchUsers();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

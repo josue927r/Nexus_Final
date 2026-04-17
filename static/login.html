@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | Farmacia de lo Alto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css?v=25">
+</head>
+
+<body class="login-body">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h3>Nexus - Farmacia de lo Alto</h3>
+                <!-- Robot Icon (SVG) -->
+                <div class="robot-icon">
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="robotGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#4FD1C5;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#319795;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Head -->
+                        <path fill="url(#robotGrad)" d="M60,80 Q60,30 100,30 Q140,30 140,80 L140,100 L60,100 Z" />
+                        <!-- Face -->
+                        <rect x="70" y="50" width="60" height="40" rx="10" fill="white" />
+                        <!-- Eyes -->
+                        <circle cx="85" cy="65" r="5" fill="#2C5282" />
+                        <circle cx="115" cy="65" r="5" fill="#2C5282" />
+                        <!-- Body -->
+                        <path fill="url(#robotGrad)" d="M65,110 L135,110 L130,160 Q100,180 70,160 Z" />
+                        <!-- Cross -->
+                        <rect x="90" y="125" width="20" height="20" fill="white" rx="2" />
+                        <rect x="97" y="120" width="6" height="30" fill="#4FD1C5" />
+                        <rect x="85" y="132" width="30" height="6" fill="#4FD1C5" />
+                    </svg>
+                </div>
+                <h2>Iniciar sesión</h2>
+                <div class="divider"></div>
+            </div>
+
+
+            <div class="login-content">
+                <div class="login-form-section">
+                    <h4>Credenciales</h4>
+                    <form id="login-form">
+                        <div class="input-group">
+                            <label for="username">Usuario:</label>
+                            <div class="input-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="input-icon" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <input type="text" id="username" name="username" class="form-input"
+                                    placeholder="Nombre Usuario" required>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="password">Contraseña:</label>
+                            <div class="input-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="input-icon" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <input type="password" id="password" name="password" class="form-input"
+                                    placeholder="•••••••••" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary btn-block">Iniciar sesión</button>
+                    </form>
+                    <div id="error-msg" class="error-message" style="display:none;">Usuario o contraseña incorrectos
+                    </div>
+                </div>
+
+                <!-- Vertical Divider -->
+                <div class="vertical-divider">
+                    <div class="v-line"></div>
+                </div>
+
+                <div class="login-google-section">
+                    <div class="google-content-wrapper">
+                        <h4>Cuenta Google</h4>
+                        <p class="google-desc">Accede con tu cuenta corporativa para mayor seguridad y rapidez.</p>
+                        <div class="google-btn-container">
+                            <button type="button" class="btn-google" disabled>
+                                <svg class="google-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                                    <path fill="#EA4335"
+                                        d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                                    <path fill="#4285F4"
+                                        d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+                                    <path fill="#FBBC05"
+                                        d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+                                    <path fill="#34A853"
+                                        d="M24 48c6.48 0 10.44-2.13 14.4-5.8l-7.73-6c-2.15 1.45-4.92 2.3-6.67 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+                                    <path fill="none" d="M0 0h48v48H0z" />
+                                </svg>
+                                <span>Iniciar sesión con Google</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="login-footer">
+                <a href="/register" style="font-size: 1rem; color: #4FD1C5; font-weight: 600;">¿No tienes cuenta? Regístrate aquí</a>
+                <br><br>
+                <a href="#">¿Olvidaste tu contraseña?</a>
+                <p>Si tienes preguntas contactar al administrador <a href="#">administrator</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const errorMsg = document.getElementById('error-msg');
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    window.location.href = '/';
+                } else {
+                    errorMsg.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                errorMsg.style.display = 'block';
+                errorMsg.textContent = "Error de conexión";
+            }
+        });
+    </script>
+</body>
+
+</html>
